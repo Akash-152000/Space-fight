@@ -1,65 +1,90 @@
 import pygame
 import random
-pygame.init()
-gameExit=True
-surface=pygame.display.set_mode((800,600))
-pygame.display.set_caption("Game1")
-x=0
-y=555
-height=50
-width=50
-white=(255,255,255)
-clock=pygame.time.Clock()
-ball=pygame.image.load("ball.png")
-ax=800
-ay=580
-height_a=2100
-width_a=60
-speed=7
-jumpCount=10
-isJump=False
-num=2
 
-while gameExit:
-    if num<30:
-        num+=0.01
-#    pygame.time.delay(100)
+pygame.init()
+
+black=(0,0,0)
+red=(255,0,0)
+green=(0,255,0)
+blue=(0,0,255)
+yellow=(255,255,0)
+white=(255,255,255)
+
+isJump=False
+jumpCount=10
+WIDTH=800
+HEIGHT=400
+fps=60
+gameloop=True
+
+class player(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface((50, 50))
+        self.image.fill(red)
+        self.rect=self.image.get_rect()
+        self.rect.x=50
+        self.rect.y=355
+        
+
+        
+            
+class objects(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image=pygame.Surface((20,80))
+        self.image.fill(blue)
+        self.rect=self.image.get_rect()
+        self.rect.center=(800,360)
+
+    def update(self):
+        self.rect.x-=10
+        if self.rect.right<-10:
+            self.rect.x=800
+
+
+class sun(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        
+
+surface=pygame.display.set_mode((WIDTH,HEIGHT))
+pygame.display.set_caption("Space-Fight")
+clock=pygame.time.Clock()
+
+all_sprites=pygame.sprite.Group()
+player=player()
+all_sprites.add(player)
+
+obj=objects()
+all_sprites.add(obj)
+
+while gameloop:
+    
     for event in pygame.event.get():
         if event.type==pygame.QUIT:
-            gameExit=False
-        key=pygame.key.get_pressed()
-    if key[pygame.K_RIGHT] and x<=790-width:
-        x+=5
-    if key[pygame.K_LEFT] and x>=10:
-        x-=5
-
+            gameloop=False
+    key=pygame.key.get_pressed()
     if not(isJump):
         if key[pygame.K_SPACE]:
             isJump=True
     else:
-        if jumpCount>=-10:
-            y-=(jumpCount*abs(jumpCount))*0.5
+        if jumpCount>=0:
+            player.rect.y-=(jumpCount*jumpCount)*0.5
+            jumpCount-=1
+        elif jumpCount<0 and jumpCount>=-10:
+            player.rect.y+=(jumpCount*jumpCount)*0.5
             jumpCount-=1
         else:
             jumpCount=10
+            player.rect.y=355
             isJump=False 
 
-    
-    surface.fill((255,255,255))
-
-    pygame.draw.rect(surface,(0,0,255),(ax,ay,width_a,height_a))
-    ax-=num
-    
-    if ax<-100:
-        ax=800
-        ay=random.randrange(450,580)
-
-
-
-    surface.blit(ball,(x,y))
-    
-    
+        
+    all_sprites.update()
+    surface.fill(black)
+    all_sprites.draw(surface)
     pygame.display.flip()
-    clock.tick(60)
+    clock.tick(fps)
 pygame.quit()
 
