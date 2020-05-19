@@ -2,6 +2,11 @@ import pygame
 import random
 
 pygame.init()
+cactus=pygame.image.load("cactus.png")
+images=[pygame.image.load("R1.png"),pygame.image.load("R2.png"),pygame.image.load("R3.png"),pygame.image.load("R4.png"),pygame.image.load("R5.png"),pygame.image.load("R6.png"),pygame.image.load("R7.png"),pygame.image.load("R8.png")]
+sun_image=pygame.image.load("planet-2.png")
+cloud_image=pygame.image.load("cloud-1.png")
+back=pygame.image.load("back.png")
 
 black=(0,0,0)
 red=(255,0,0)
@@ -17,14 +22,29 @@ HEIGHT=400
 fps=60
 gameloop=True
 
+
+
+class backg(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image=pygame.transform.scale(back,(WIDTH,HEIGHT))
+        self.rect=self.image.get_rect()
+        self.rect.x=0
+        self.rect.y=0
+
+    def update(self):
+        self.rect.x-=11
+        if self.rect.right<0:
+            self.rect.x=800
+    
 class player(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((50, 50))
-        self.image.fill(red)
+        self.image_count=0
+        self.image = pygame.transform.scale(images[self.image_count],(50, 50))
         self.rect=self.image.get_rect()
         self.rect.x=50
-        self.rect.y=355
+        self.rect.y=290
         
 
         
@@ -32,10 +52,9 @@ class player(pygame.sprite.Sprite):
 class objects(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image=pygame.Surface((20,80))
-        self.image.fill(blue)
+        self.image=pygame.transform.scale(cactus,(20,80))
         self.rect=self.image.get_rect()
-        self.rect.center=(800,360)
+        self.rect.center=(800,310)
 
     def update(self):
         self.rect.x-=10
@@ -47,28 +66,27 @@ class objects(pygame.sprite.Sprite):
 class sun(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image=pygame.Surface((20,20))
-        self.image.fill(yellow)
+        self.image=pygame.transform.scale(sun_image,(30,30))
         self.rect=self.image.get_rect()
         self.rect.center=(800,100)
 
     def update(self):
         self.rect.x-=1
-        obj.image.fill(blue)
-        player.image.fill(red)
-        cloud.image.fill((0,255,255))
+        obj.image=pygame.transform.scale(cactus,(40,100))
+        player.image = pygame.transform.scale(images[player.image_count],(50, 50))
+        cloud.image=pygame.transform.scale(cloud_image,(50,30))
+                                           
         if self.rect.right<0:
             self.rect.x=1600
         if self.rect.left>800:
-            obj.image.fill(white)
-            player.image.fill(yellow)
-            cloud.image.fill(red)
+            obj.image=pygame.transform.scale(cactus,(40,100))
+            player.image = pygame.transform.scale(images[player.image_count],(50, 50))
+            cloud.image=pygame.transform.scale(cloud_image,(50,30))
 
 class clouds(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image=pygame.Surface((50,30))
-        self.image.fill((0,255,255))
+        self.image=pygame.transform.scale(cloud_image,(50,30))
         self.rect=self.image.get_rect()
         self.rect.center=(800,160)
 
@@ -85,16 +103,19 @@ clock=pygame.time.Clock()
 
 
 all_sprites=pygame.sprite.Group()
+backg=backg()
+all_sprites.add(backg)
+
 sun=sun()
 all_sprites.add(sun)
-
-player=player()
-all_sprites.add(player)
 
 obj=objects()
 all_sprites.add(obj)
 cloud=clouds()
 all_sprites.add(cloud)
+
+player=player()
+all_sprites.add(player)
 
 while gameloop:
     
@@ -114,13 +135,17 @@ while gameloop:
             jumpCount-=1
         else:
             jumpCount=10
-            player.rect.y=355
+            player.rect.y=290
             isJump=False 
 
-        
+    surface.fill(black)  
     all_sprites.update()
-    surface.fill(black)
+
+    
+    #if sun.rect.left>800:
+    #    surface.fill((169,169,169))
     all_sprites.draw(surface)
+    
     pygame.display.flip()
     clock.tick(fps)
 pygame.quit()
