@@ -43,6 +43,7 @@ class objects(pygame.sprite.Sprite):
             self.rect.x=800
 
 
+
 class sun(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
@@ -53,21 +54,30 @@ class sun(pygame.sprite.Sprite):
 
     def update(self):
         self.rect.x-=1
+        obj.image.fill(blue)
+        player.image.fill(red)
+        cloud.image.fill((0,255,255))
         if self.rect.right<0:
-            self.rect.x=800
+            self.rect.x=1600
+        if self.rect.left>800:
+            obj.image.fill(white)
+            player.image.fill(yellow)
+            cloud.image.fill(red)
 
 class clouds(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image=pygame.Surface((30,50))
+        self.image=pygame.Surface((50,30))
         self.image.fill((0,255,255))
         self.rect=self.image.get_rect()
-        self.rect.center=(800,random.randrange(0,50))
+        self.rect.center=(800,160)
 
     def update(self):
-        self.rect.x-=4
+        self.rect.x-=2
         if self.rect.right<0:
-            self.rect.x=800   
+            self.rect.x=800
+        
+            
 
 surface=pygame.display.set_mode((WIDTH,HEIGHT))
 pygame.display.set_caption("Space-Fight")
@@ -85,11 +95,7 @@ obj=objects()
 all_sprites.add(obj)
 cloud=clouds()
 all_sprites.add(cloud)
-'''
-for i in range(5):
-    c=clouds()
-    all_sprites.add(c)
-'''
+
 while gameloop:
     
     for event in pygame.event.get():
