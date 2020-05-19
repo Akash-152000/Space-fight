@@ -6,7 +6,9 @@ cactus=pygame.image.load("cactus.png")
 images=[pygame.image.load("R1.png"),pygame.image.load("R2.png"),pygame.image.load("R3.png"),pygame.image.load("R4.png"),pygame.image.load("R5.png"),pygame.image.load("R6.png"),pygame.image.load("R7.png"),pygame.image.load("R8.png")]
 sun_image=pygame.image.load("planet-2.png")
 cloud_image=pygame.image.load("cloud-1.png")
-back=pygame.image.load("back.png")
+back=pygame.image.load("back-land.png")
+back2=pygame.image.load("back-land.png")
+back_sky=pygame.image.load("back-sky.png")
 
 black=(0,0,0)
 red=(255,0,0)
@@ -15,6 +17,7 @@ blue=(0,0,255)
 yellow=(255,255,0)
 white=(255,255,255)
 
+image_count=0
 isJump=False
 jumpCount=10
 WIDTH=800
@@ -27,24 +30,33 @@ gameloop=True
 class backg(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image=pygame.transform.scale(back,(WIDTH,HEIGHT))
+        self.image=pygame.transform.scale(back,(WIDTH,100))
         self.rect=self.image.get_rect()
         self.rect.x=0
-        self.rect.y=0
+        self.rect.y=350
 
     def update(self):
-        self.rect.x-=11
-        if self.rect.right<0:
-            self.rect.x=800
+        self.rect.x-=10
+
+
+class backg1(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image=pygame.transform.scale(back2,(WIDTH,100))
+        self.rect=self.image.get_rect()
+        self.rect.x=800
+        self.rect.y=350
+
+    def update(self):
+        self.rect.x-=10        
     
 class player(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image_count=0
-        self.image = pygame.transform.scale(images[self.image_count],(50, 50))
+        self.image = pygame.transform.scale(images[image_count],(50, 50))
         self.rect=self.image.get_rect()
         self.rect.x=50
-        self.rect.y=290
+        self.rect.y=305
         
 
         
@@ -54,12 +66,13 @@ class objects(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image=pygame.transform.scale(cactus,(20,80))
         self.rect=self.image.get_rect()
-        self.rect.center=(800,310)
+        self.rect.center=(800,320)
 
     def update(self):
         self.rect.x-=10
         if self.rect.right<-10:
             self.rect.x=800
+
 
 
 
@@ -73,14 +86,14 @@ class sun(pygame.sprite.Sprite):
     def update(self):
         self.rect.x-=1
         obj.image=pygame.transform.scale(cactus,(40,100))
-        player.image = pygame.transform.scale(images[player.image_count],(50, 50))
+        player.image = pygame.transform.scale(images[image_count],(50, 50))
         cloud.image=pygame.transform.scale(cloud_image,(50,30))
                                            
         if self.rect.right<0:
             self.rect.x=1600
         if self.rect.left>800:
             obj.image=pygame.transform.scale(cactus,(40,100))
-            player.image = pygame.transform.scale(images[player.image_count],(50, 50))
+            player.image = pygame.transform.scale(images[image_count],(50, 50))
             cloud.image=pygame.transform.scale(cloud_image,(50,30))
 
 class clouds(pygame.sprite.Sprite):
@@ -88,7 +101,7 @@ class clouds(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image=pygame.transform.scale(cloud_image,(50,30))
         self.rect=self.image.get_rect()
-        self.rect.center=(800,160)
+        self.rect.center=(800,130)
 
     def update(self):
         self.rect.x-=2
@@ -105,6 +118,9 @@ clock=pygame.time.Clock()
 all_sprites=pygame.sprite.Group()
 backg=backg()
 all_sprites.add(backg)
+
+backg1=backg1()
+all_sprites.add(backg1)
 
 sun=sun()
 all_sprites.add(sun)
@@ -135,18 +151,29 @@ while gameloop:
             jumpCount-=1
         else:
             jumpCount=10
-            player.rect.y=290
+            player.rect.y=305
             isJump=False 
 
     surface.fill(black)  
     all_sprites.update()
 
+    if image_count<7:
+        image_count+=1
+    else:
+        image_count=0
+    if backg.rect.right<=0:
+        backg.rect.x=800
+    if backg1.rect.right<=0:
+        backg1.rect.x=800
     
-    #if sun.rect.left>800:
-    #    surface.fill((169,169,169))
+    if sun.rect.left>800:
+        surface.fill((169,169,169))
+    else:
+        surface.blit(back_sky,(0,0))
     all_sprites.draw(surface)
     
     pygame.display.flip()
     clock.tick(fps)
 pygame.quit()
+
 
