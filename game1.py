@@ -1,5 +1,6 @@
 import pygame
 import random
+import time
 
 pygame.init()
 cactus=pygame.image.load("cactus.png")
@@ -22,9 +23,18 @@ isJump=False
 jumpCount=10
 WIDTH=800
 HEIGHT=400
+score=0
 fps=60
 gameloop=True
 
+
+font_name=pygame.font.match_font("arial")
+def draw_text(surf,text,size,x,y):
+    font=pygame.font.Font(font_name,size)
+    text_surface=font.render(text,True,black)
+    text_rect=text_surface.get_rect()
+    text_rect.center=(x,y)
+    surf.blit(text_surface,text_rect)
 
 
 class backg(pygame.sprite.Sprite):
@@ -134,7 +144,7 @@ player=player()
 all_sprites.add(player)
 
 while gameloop:
-    
+    score+=1
     for event in pygame.event.get():
         if event.type==pygame.QUIT:
             gameloop=False
@@ -152,7 +162,11 @@ while gameloop:
         else:
             jumpCount=10
             player.rect.y=305
-            isJump=False 
+            isJump=False
+
+    if key[pygame.K_UP]:
+        time.sleep(5)
+        
 
     surface.fill(black)  
     all_sprites.update()
@@ -170,10 +184,18 @@ while gameloop:
         surface.fill((169,169,169))
     else:
         surface.blit(back_sky,(0,0))
+
+
+    #######COLLISIONS
+    if player.rect.right>obj.rect.left and player.rect.left<obj.rect.left and player.rect.bottom>obj.rect.top and player.rect.top<obj.rect.bottom:
+        gameloop=False
+        
     all_sprites.draw(surface)
-    
+    #final_score="Score"+str(score)
+    draw_text(surface, "Score"+":"+str(score), 28, 70, 20)
     pygame.display.flip()
     clock.tick(fps)
 pygame.quit()
+
 
 
