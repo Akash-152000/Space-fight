@@ -44,3 +44,5 @@ pygame.quit()
 ![image](https://github.com/Akash-152000/Space-fight/blob/master/Pic.png)
 
 ![image2](https://github.com/Akash-152000/Space-fight/blob/master/Pic2.png)
+
+![image3](https://github.com/Akash-152000/Space-fight/blob/master/Pic3.png)
