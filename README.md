@@ -42,3 +42,5 @@ pygame.quit()
 
 ## The above coded game looks like
 ![image](https://github.com/Akash-152000/Space-fight/blob/master/Pic.png)
+
+![image2](https://github.com/Akash-152000/Space-fight/blob/master/Pic2.png)
