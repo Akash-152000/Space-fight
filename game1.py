@@ -12,7 +12,7 @@ cloud_image=pygame.image.load("cloud-1.png")
 back=pygame.image.load("back-land.png")
 back2=pygame.image.load("back-land.png")
 back_sky=pygame.image.load("back-sky.png")
-coin=[pygame.image.load("coin_01.png"),pygame.image.load("coin_02.png"),pygame.image.load("coin_03.png"),pygame.image.load("coin_04.png"),pygame.image.load("coin_05.png"),pygame.image.load("coin_06.png"),pygame.image.load("coin_07.png"),pygame.image.load("coin_08.png")]
+
 
 ##COLORS
 black=(0,0,0)
@@ -24,7 +24,6 @@ white=(255,255,255)
 
 add=False
 image_count=0
-coin_count=3
 isJump=False
 jumpCount=10
 WIDTH=800
@@ -137,20 +136,6 @@ class clouds(pygame.sprite.Sprite):
 
 
 
-###COINS
-
-class coins(pygame.sprite.Sprite):
-    def __init__(self):
-        pygame.sprite.Sprite.__init__(self)
-        self.image=pygame.transform.scale(coin[coin_count],(20,30))
-        self.rect=self.image.get_rect()
-        self.rect.center=(800,165)
-
-    def update(self):
-        self.rect.x-=10
-        if self.rect.right<-10:
-            self.rect.x=800
-
             
 ###GAME WINDOW 
 surface=pygame.display.set_mode((WIDTH,HEIGHT))
@@ -178,98 +163,11 @@ all_sprites.add(cloud)
 player=player()
 all_sprites.add(player)
 
-coins=coins()
-all_sprites.add(coins)
 
 
 ###GAME LOOP
 while gameloop:
     
-
-    for event in pygame.event.get():
-        if event.type==pygame.QUIT:
-            gameloop=False
-    key=pygame.key.get_pressed()
-    if not(isJump):
-        if key[pygame.K_SPACE]:
-            isJump=True
-    else:
-        if jumpCount>=0:
-            player.rect.y-=(jumpCount*jumpCount)*0.5
-            jumpCount-=1
-        elif jumpCount<0 and jumpCount>=-10:
-            player.rect.y+=(jumpCount*jumpCount)*0.5
-            jumpCount-=1
-        else:
-            jumpCount=10
-            player.rect.y=305
-            isJump=False
-
-    if key[pygame.K_UP]:
-        time.sleep(5)
-        
-
-    surface.fill(black)  
-    all_sprites.update()
-    print(coin_count)
-    if image_count<7:
-        image_count+=1
-    else:
-        image_count=0
-
-    if coin_count<7:
-        coin_count+=1
-    else:
-        coin_count=0
-        
-    if backg.rect.right<=0:
-        backg.rect.x=800
-    if backg1.rect.right<=0:
-        backg1.rect.x=800
-    
-    if sun.rect.left>800:
-        surface.fill((169,169,169))
-    else:
-        surface.blit(back_sky,(0,0))
-
-
-    #######COLLISIONS
-    if player.rect.right>obj.rect.left and player.rect.left<obj.rect.left and player.rect.bottom>obj.rect.top and player.rect.top<obj.rect.bottom:
-        gameloop=False
-    if player.rect.right>coins.rect.left and player.rect.left<coins.rect.left and player.rect.bottom>coins.rect.top and player.rect.top<coins.rect.bottom:
-        coins.kill()
-        score+=1
-    
-        
-    all_sprites.draw(surface)
-    #final_score="Score"+str(score)
-    draw_text(surface, "Score"+":"+str(score), 28, 70, 20)
-    pygame.display.flip()
-    clock.tick(fps)
-pygame.quit()
-
-
-
-
-all_sprites=pygame.sprite.Group()
-backg=backg()
-all_sprites.add(backg)
-
-backg1=backg1()
-all_sprites.add(backg1)
-
-sun=sun()
-all_sprites.add(sun)
-
-obj=objects()
-all_sprites.add(obj)
-cloud=clouds()
-all_sprites.add(cloud)
-
-player=player()
-all_sprites.add(player)
-
-while gameloop:
     score+=1
     for event in pygame.event.get():
         if event.type==pygame.QUIT:
@@ -296,11 +194,12 @@ while gameloop:
 
     surface.fill(black)  
     all_sprites.update()
-
     if image_count<7:
         image_count+=1
     else:
         image_count=0
+
+        
     if backg.rect.right<=0:
         backg.rect.x=800
     if backg1.rect.right<=0:
@@ -315,6 +214,8 @@ while gameloop:
     #######COLLISIONS
     if player.rect.right>obj.rect.left and player.rect.left<obj.rect.left and player.rect.bottom>obj.rect.top and player.rect.top<obj.rect.bottom:
         gameloop=False
+    
+    
         
     all_sprites.draw(surface)
     #final_score="Score"+str(score)
@@ -322,6 +223,5 @@ while gameloop:
     pygame.display.flip()
     clock.tick(fps)
 pygame.quit()
-
 
 
