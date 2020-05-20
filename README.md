@@ -38,3 +38,6 @@ pygame.quit()
 - **pygame.QUIT** - This is the event type that is fired when you click on the close button in the corner of the window.
 
 - **pygame.display.flip()** - PyGame is double-buffered. This swaps the buffers. All you need to know is that this call is required in order for any updates that you make to the game screen to become visible.
+
+
+## The above coded game looks like
