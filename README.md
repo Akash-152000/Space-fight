@@ -48,7 +48,20 @@ If you want to implement this project follow the below steps.
 For cloning the repository open ur terminal and move to the local repository where you want to download the project and then run the below snippet
 
 ```
-git clone 
+git clone https://github.com/Akash-152000/Space-fight.git
 ```
 
+* **Install the requirement.txt**
 
+After clonning is done run the below snippet.
+
+```
+pip install -r requirement.txt
+```
+
+The above code installs all the required libraries needed to run the project and if your system already has the required libraries it would give u the message.
+
+* **Kudos**
+Now run the py file 
+
+## The game does not have many things, i might update in future but if u wanna contribute in adding coins or changing graphics or improving scoring system please do it.
