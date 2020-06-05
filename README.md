@@ -1,4 +1,11 @@
+![gif](gif.gif)
+
+gif is too fast.
+
+
 # Space-fight
+I named it space fight but there is no space in the game.Sorry about that.
+
 pygame is a python framework developed for making games in python.
 
 Best way to install pygame is pip tool
