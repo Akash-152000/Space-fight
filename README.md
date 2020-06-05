@@ -45,6 +45,10 @@ If you want to implement this project follow the below steps.
 
 * **Clone this repository**
 
-For cloning the repository open ur terminal and 
+For cloning the repository open ur terminal and move to the local repository where you want to download the project and then run the below snippet
+
+```
+git clone 
+```
 
 
