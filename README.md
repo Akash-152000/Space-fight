@@ -40,9 +40,11 @@ pygame.quit()
 - **pygame.display.flip()** - PyGame is double-buffered. This swaps the buffers. All you need to know is that this call is required in order for any updates that you make to the game screen to become visible.
 
 
-## The above coded game looks like
-![image](https://github.com/Akash-152000/Space-fight/blob/master/Pic.png)
+# Getting started
+If you want to implement this project follow the below steps.
 
-![image2](https://github.com/Akash-152000/Space-fight/blob/master/Pic2.png)
+* **Clone this repository**
 
-![image3](https://github.com/Akash-152000/Space-fight/blob/master/Pic3.png)
+For cloning the repository open ur terminal and 
+
+
